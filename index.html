@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css">
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<div>
+						<p>About me</p>
+					</div>
+				</section>
+				<section>
+					<section>
+						<div>
+							<p>How websites work</p>
+							<img src="images/browser.png" style="height: 30vh">
+						</div>
+					</section>
+					<section>
+						<div>
+							<img src="images/Always_has_been.png" style="height: 50vh;
+								width: 100vw;
+								object-fit: contain;">
+						</div>
+					</section>
+					<section data-auto-animate>
+						<h2 data-id="code-title">HTML Syntax</h2>
+						<pre data-id="code-animation">
+							<code class="hljs html" data-trim data-line-numbers="1|5|2-4">
+								<script type="text/template">
+									<tag_name>
+										<child property="value">
+											Content
+										</child>
+									</tag_name>
+								</script>
+							</code>
+						</pre>
+						<p>Similar to XML</p>
+					</section>
+					<section data-auto-animate class="fragments">
+							<h2 data-id="code-title">Concrete example</h2>
+							<pre data-id="code-animation"><code class="hljs html" data-trim data-line-numbers=""><script type="text/template">
+							<button style="color: red">
+								Hi
+							</button>
+						</script></code></pre>
+						<div class="fragment">
+							<p>results in:</p>
+							<button style="color: red; font-size: 2em">
+								Hi
+							</button>
+						</div>
+					</section>
+					<section data-auto-animate class="fragments">
+							<h2 data-id="code-title">An example with nesting</h2>
+							<pre data-id="code-animation"><code class="hljs html" data-trim data-line-numbers="1,5|2-4"><script type="text/template">
+							<div style="border: 5px solid blue;">
+								<button style="color: red">
+									Hi
+								</button>
+							</div>
+						</script></code></pre>
+						<div class="fragment">
+							<p>results in:</p>
+							<div style="border: 5px solid blue;">
+								<button style="color: red; font-size: 2em">
+									Hi
+								</button>
+							</div>
+						</div>
+					</section>
+					<section data-auto-animate class="fragments">
+							<h2 data-id="code-title">An example with nesting</h2>
+							<pre data-id="code-animation"><code class="hljs html" data-trim data-line-numbers="1,5|2-4"><script type="text/template">
+							<div style="border: 5px solid blue;">
+								<button style="color: red">
+									Hi
+								</button>
+							</div>
+						</script></code></pre>
+						<div class="fragment">
+							<p>results in:</p>
+							<div style="border: 5px solid blue;">
+								<button style="color: red; font-size: 2em">
+									Hi
+								</button>
+							</div>
+						</div>
+					</section>
+					<section data-auto-animate>
+							<h2 data-id="code-title">A complete HTML document</h2>
+							<pre data-id="code-animation"><code class="hljs html" data-trim data-line-numbers="1|2,11|3-5|6-10"><script type="text/template">
+							 <!DOCTYPE html>
+							 <html>
+								<head>
+									<title>Page Title</title>
+								</head>
+								<body>
+									<button>
+										Hi
+									</button>
+								</body>
+							</html>
+						</script></code></pre>
+					</section>
+					<section>
+						<h2>WOW a button that does nothing</h2>
+						<button style="color: red; font-size: 2em">
+							Hi
+						</button>
+					</section>
+
+				</section>
+
+				<section>Dev Tools</section>
+			</div>
+		</div>
+
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
