@@ -393,26 +393,6 @@
 						<p class="fragment">You can now pass the timer value in the url. <a href="countdownxss.html?seconds=42" target="_blank">countdownxss.html?seconds=42</a>
 						<span><br>Can you build an URL that triggers the XSS<br><span style="font-size: 0.5em">Hint use the img tag with a broken src attribute and the onerror property</span></p>
 					</section>
-					<section class="fragments">
-					  <h2>Reflected vs. Stored XSS</h2>
-					  <div style="display: flex; justify-content: space-around; margin-top: 20px;">
-					    <div style="width: 45%; border: 2px solid #4285f4; border-radius: 5px; padding: 15px;;font-size: 0.5em">
-					      <h3>Reflected XSS</h3>
-					      <p class="fragment" style="font-size: 0.8em">XSS-Payload is part of the request</p>
-					      <p class="fragment" style="font-size: 0.8em">Example: URL-Parameter <code>?search=&lt;script&gt;...&lt;/script&gt;</code></p>
-					      <p class="fragment" style="font-size: 0.8em">Needs user interaction</p>
-					      <p class="fragment" style="font-size: 0.8em">Not stored on the server</p>
-					    </div>
-					    <div style="width: 45%; border: 2px solid #ea4335; border-radius: 5px; padding: 15px;font-size: 0.5em">
-					      <h3>Stored XSS</h3>
-					      <p class="fragment" >XSS payload is stored on the server (e.g. a database)</p>
-					      <p class="fragment" style="font-size: 0.8em">Example: Comments, forum posts, profiles</p>
-					      <p class="fragment" style="font-size: 0.8em">Every visitor of the page is affected</p>
-					      <p class="fragment" style="font-size: 0.8em">Persists across multiple page loads</p>
-					    </div>
-					  </div>
-					  <p class="fragment" style="margin-top: 30px">Stored XSS hat eine größere Reichweite und ist daher gefährlicher</p>
-					</section>
 					<section>
 					    <h2>DOM-based XSS: Sources and Sinks</h2>
 					    <div style="display: flex; justify-content: space-around; align-items: flex-start; gap: 1em">
@@ -445,6 +425,75 @@
 							<input placeholder="Set the href of the link below" style="font-size: 1em; min-width: 90%" type="text" onchange="document.getElementById('jsLink').href = this.value"/><br>
 							<a id="jsLink">My href is set by the input field</a>
 							<p>User control over urls also leads to XSS.</p>
+					</section>
+					<section class="fragments">
+						<h2>Reflected vs. Stored XSS</h2>
+						<div style="display: flex; justify-content: space-around; margin-top: 20px;">
+							<div style="width: 45%; border: 2px solid #4285f4; border-radius: 5px; padding: 15px;;font-size: 0.5em">
+								<h3>Reflected XSS</h3>
+								<p class="fragment" style="font-size: 0.8em">XSS-Payload is part of the request</p>
+								<p class="fragment" style="font-size: 0.8em">Example: URL-Parameter <code>?search=&lt;script&gt;...&lt;/script&gt;</code></p>
+								<p class="fragment" style="font-size: 0.8em">Needs user interaction</p>
+								<p class="fragment" style="font-size: 0.8em">Not stored on the server</p>
+							</div>
+							<div style="width: 45%; border: 2px solid #ea4335; border-radius: 5px; padding: 15px;font-size: 0.5em">
+								<h3>Stored XSS</h3>
+								<p class="fragment" >XSS payload is stored on the server (e.g. a database)</p>
+								<p class="fragment" style="font-size: 0.8em">Example: Comments, forum posts, profiles</p>
+								<p class="fragment" style="font-size: 0.8em">Every visitor of the page is affected</p>
+								<p class="fragment" style="font-size: 0.8em">Persists across multiple page loads</p>
+							</div>
+						</div>
+						<p class="fragment" style="margin-top: 30px">Stored XSS has a greater reach and is therefore more dangerous</p>
+					</section>
+					<section class="fragments">
+						<h3>Some hints for the next challenge</h3>
+						<p>You can use the dev tools to inspect network calls made from the website. Network calls in JS are e.g. done by the fetch() function.</p>
+						<img src="images/network.png" style="height: 30vh; object-fit: contain"/>
+					</section>
+					<section class="fragments">
+						<h3>HTML/JS content can be modified</h3>
+						<p>Never do content validation browser sided.</p>
+						<img src="images/edit.png" style="height: 30vh; object-fit: contain"/>
+						<p>Do a double click in dev tools.</p>
+					</section>
+					<section class="fragments">
+						<h2>Let's try Stored XSS</h2>
+						<p>Head over to <a href="">Chall1</a></p>
+						<p class="fragment">What stops you from injecting HTML? Can you remove it?</p>
+						<p class="fragment">Try to inject an img tag (with onerror) into a post</p>
+					</section>
+				</section>
+				<section>
+					<section>
+						<div>
+							<p>Server-side XSS</p>
+							<img src="images/template.png"/>
+						</div>
+					</section>
+					<section>
+						<div>
+							<p>Server-side XSS</p>
+							<p>Instead of the JS in the browser injects the JS, the server does so.</p>
+							<p class="fragment">Happens with Server-side rendering.With SSR the HTML is dynamic.</p>
+						</div>
+					</section>
+					<section>
+						<div>
+							<p>Building HTML with string concatenating:</p>
+							<pre data-id="code-animation"><code style="max-height: 100%; width: 120%" class="hljs python" data-trim data-line-numbers="">
+									...
+									return "<p>" + str(username) + "</p>"
+									...
+							</code></pre>
+							<p class="fragment">With templating:</p>
+							<pre class="fragment" data-id="code-animation"><code style="max-height: 100%; width: 120%" class="hljs html" data-trim data-line-numbers="">
+								..
+								<p>{{ username|safe }}</p>
+								...
+							</code></pre>
+							<p class="fragment">Normally libraries escape data by default, but always have options to turn it off.</p>
+						</div>
 					</section>
 				</section>
 			</div>
