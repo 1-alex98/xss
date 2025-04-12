@@ -4,7 +4,9 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>XSS for dummies</title>
+
+		<link rel="icon" href="images/js.png" type="image/png">
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
@@ -15,13 +17,67 @@
 		<script src="plugin/highlight/highlight.js"></script>
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+		<style type="text/css">
+			.blinking-cursor {
+				-webkit-animation: 1s blink step-end infinite;
+				-moz-animation: 1s blink step-end infinite;
+				-ms-animation: 1s blink step-end infinite;
+				-o-animation: 1s blink step-end infinite;
+				animation: 1s blink step-end infinite;
+			}
+
+			@keyframes "blink" {
+				from, to {
+					color: transparent;
+				}
+				50% {
+					color: white;
+				}
+			}
+
+			@-moz-keyframes blink {
+				from, to {
+					color: transparent;
+				}
+				50% {
+					color: white;
+				}
+			}
+
+			@-webkit-keyframes "blink" {
+				from, to {
+					color: transparent;
+				}
+				50% {
+					color: white;
+				}
+			}
+
+			@-ms-keyframes "blink" {
+				from, to {
+					color: transparent;
+				}
+				50% {
+					color: white;
+				}
+			}
+
+			@-o-keyframes "blink" {
+				from, to {
+					color: transparent;
+				}
+				50% {
+					color: white;
+				}
+			}
+		</style>
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
 				<section>
 					<div>
-						<p>About me</p>
+						<p style="color: white"><span>About me</span> <span style="margin-bottom: 0.5em" class="blinking-cursor">|</span></p>
 					</div>
 				</section>
 				<section>
@@ -85,24 +141,6 @@
 							</div>
 						</div>
 					</section>
-					<section data-auto-animate class="fragments">
-							<h2 data-id="code-title">An example with nesting</h2>
-							<pre data-id="code-animation"><code class="hljs html" data-trim data-line-numbers="1,5|2-4"><script type="text/template">
-							<div style="border: 5px solid blue;">
-								<button style="color: red">
-									Hi
-								</button>
-							</div>
-						</script></code></pre>
-						<div class="fragment">
-							<p>results in:</p>
-							<div style="border: 5px solid blue;">
-								<button style="color: red; font-size: 2em">
-									Hi
-								</button>
-							</div>
-						</div>
-					</section>
 					<section data-auto-animate>
 							<h2 data-id="code-title">A complete HTML document</h2>
 							<pre data-id="code-animation"><code class="hljs html" data-trim data-line-numbers="1|2,11|3-5|6-10"><script type="text/template">
@@ -128,7 +166,287 @@
 
 				</section>
 
-				<section>Dev Tools</section>
+				<section>
+					<section>
+						<div>
+							<p>Javascript</p>
+							<img src="images/js.png" style="height: 30vh">
+							<p>makes website interactive</p>
+						</div>
+					</section>
+					<section data-auto-animate class="fragments">
+						<h2 data-id="code-title">JS by example</h2>
+						<pre data-id="code-animation"><code class="hljs javascript" data-trim data-line-numbers="1|2|3-5|6-9"><script type="text/template">
+							var i = 5; // variables are not statically typed
+							console.log(i); // how to print
+							if (i > 0) {
+								console.log("i is positive");
+							}
+							function add(a, b) {
+								return a + b;
+							}
+							console.log(add(1, 2));
+						</script></code></pre>
+					</section>
+					<section data-auto-animate class="fragments">
+						<h2 data-id="code-title">Document Object Model (DOM)</h2>
+						<pre data-id="code-animation"><code class="hljs html" data-trim data-line-numbers="">
+							&lt;button id=&quot;domExampleButton&quot; style=&quot;color: red;&quot;&gt;
+								Hi
+							&lt;/button&gt;
+							&lt;script&gt;
+								document.getElementById(&quot;domExampleButton&quot;).style.color =
+									&quot;blue&quot;;
+							&lt;/script&gt;
+						</code></pre>
+						<button id="domExampleButton" style="color: red; font-size: 2em">
+							Hi
+						</button>
+						<script>
+							document.getElementById("domExampleButton").style.color = "blue";
+						</script>
+					</section>
+					<section data-auto-animate class="fragments">
+						<h2 data-id="code-title">Document Object Model (DOM)</h2>
+						<pre data-id="code-animation"><code class="hljs html" data-trim data-line-numbers="1-4|5-10|">
+							&lt;button id=&quot;domClickButton&quot; onclick=&quot;makeButtonBlue()&quot;
+								style=&quot;color: red&quot;&gt;
+								Hi
+							&lt;/button&gt;
+							&lt;script&gt;
+								function makeButtonBlue() {
+									document.getElementById(&quot;domClickButton&quot;).style.color =
+										&quot;blue&quot;;
+								}
+							&lt;/script&gt;
+						</code></pre>
+						<button id="domClickButton" onclick="makeButtonBlue()" style="color: red; font-size: 2em">
+							Hi
+						</button>
+						<script>
+							function makeButtonBlue() {
+								document.getElementById("domClickButton").style.color = "blue";
+							}
+						</script>
+					</section>
+				</section>
+				<section>
+					<section>
+						<div>
+							<p>Dev Tools</p>
+							<img src="images/devtools.png" style="height: 50vh">
+							<p>inspecting websites</p>
+						</div>
+					</section>
+					<section>
+						<div>
+							<p>Dev Tools</p>
+							<img src="images/inspect.png" style="height: 50vh">
+							<p>To view a the HTML behind an element: right click -> inspect</p>
+						</div>
+					</section>
+					<section>
+						<div>
+							<p>Dev Tools</p>
+							<img src="images/devtools-screenshot.png" style="height: 70vh">
+						</div>
+					</section>
+					<section>
+					    <h2>Number Checker</h2>
+					    <input type="number" id="numberInput" style="font-size: 1em" placeholder="Enter a number">
+					    <button type="button" style="font-size: 1em" onclick="checkNumber()">Check</button>
+					    <script>
+					        function checkNumber() {
+					            const number = parseInt(document.getElementById('numberInput').value, 10);
+					            if (number === 43) {
+					                alert('Correct! The number is 42 + 1.');
+					            } else {
+					                alert('Wrong number.');
+					            }
+					        }
+					    </script>
+						<p>Right click the button and select "inspect" to see what it does. Also check the script that the button references.</p>
+					</section>
+				</section>
+				<section>
+					<section>
+						<div>
+							<p>DOM based XSS</p>
+							<img src="images/rabbit.jpg" style="height: 60vh">
+						</div>
+					</section>
+					<section>
+						<div style="display: flex; justify-content: space-between">
+							<div style="width: 30%; height: 40vh; border-radius: 5px; border: 5px solid blue">
+								<p><b>Sink</b><br>user-controlled</p>
+								<p>URL or other data </p>
+							</div>
+							<p style="align-self: center;">→</p>
+							<div style="width: 30%; height: 40vh; border: 5px solid blue">
+								<p><b>Source</b><br>JS is executed</p>
+								<p>innerHtml</p>
+							</div>
+						</div>
+					</section>
+					<section>
+							<h2>Countdown Timer</h2>
+							<input id="timeInput" style="font-size: 1em" placeholder="Enter time in seconds">
+							<button type="button" style="font-size: 1em" onclick="startCountdown()">Start Countdown</button>
+							<p id="countdownDisplay" style="font-size: 1.5em; color: red;"></p>
+							<script>
+									function startCountdown() {
+											let time = document.getElementById('timeInput').value;
+											const display = document.getElementById('countdownDisplay');
+											let timeRemaining = time;
+
+											const interval = setInterval(() => {
+													if (timeRemaining > 0) {
+															display.innerHTML = "Time remaining: " + timeRemaining + " seconds";
+															timeRemaining--;
+													} else {
+															display.innerHTML = "Time's up! " + time + " seconds have passed.";
+															clearInterval(interval);
+													}
+											}, 1000);
+									}
+							</script>
+						</section>
+						<section>
+							<pre data-id="code-animation"><code style="max-height: 100%; width: 120%" class="hljs html" data-trim data-line-numbers="">
+									&lt;script&gt;
+									function startCountdown() {
+											let time = document.getElementById('timeInput').value;
+											const display = document.getElementById('countdownDisplay');
+											let timeRemaining = time;
+
+											const interval = setInterval(() => {
+													if (timeRemaining > 0) {
+															display.innerHTML = `Time remaining: ${timeRemaining} seconds`;
+															timeRemaining--;
+													} else {
+															display.innerHTML = `Time's up! ${time} seconds have passed.`;
+															clearInterval(interval);
+													}
+											}, 1000);
+									}
+									&lt;/script&gt;
+								</code></pre>
+						</section>
+						<section class="fragments">
+						    <h2>Countdown Timer</h2>
+						    <input id="timeInput2" style="font-size: 1em" placeholder="Enter time in seconds">
+						    <button type="button" style="font-size: 1em" onclick="startCountdown2()">Start Countdown</button>
+						    <p id="countdownDisplay2" style="font-size: 1.5em; color: red;"></p>
+						    <script>
+						        function startCountdown2() {
+						            let time = document.getElementById('timeInput2').value;
+						            const display = document.getElementById('countdownDisplay2');
+												let timeRemaining = time;
+
+						            const interval = setInterval(() => {
+						                if (timeRemaining > 0) {
+						                    display.innerHTML = `Time remaining: ${timeRemaining} seconds`;
+						                    timeRemaining--;
+						                } else {
+						                    display.innerHTML = `Time's up! ${time} seconds have passed.`;
+						                    clearInterval(interval);
+						                }
+						            }, 1000);
+						        }
+						    </script>
+							<p>Go try enter some html.</p>
+							<p class="fragment">For example an image like so &lt;img src=&quot;images/js.png&quot; /&gt;</p>
+					</section>
+						<section class="fragments">
+						    <h2>Countdown Timer</h2>
+						    <input id="timeInput3" style="font-size: 1em" placeholder="Enter time in seconds">
+						    <button type="button" style="font-size: 1em" onclick="startCountdown3()">Start Countdown</button>
+						    <p id="countdownDisplay3" style="font-size: 1.5em; color: red;"></p>
+						    <script>
+						        function startCountdown3() {
+						            let time = document.getElementById('timeInput3').value;
+						            const display = document.getElementById('countdownDisplay3');
+												let timeRemaining = time;
+
+						            const interval = setInterval(() => {
+						                if (timeRemaining > 0) {
+						                    display.innerHTML = `Time remaining: ${timeRemaining} seconds`;
+						                    timeRemaining--;
+						                } else {
+						                    display.innerHTML = `Time's up! ${time} seconds have passed.`;
+						                    clearInterval(interval);
+						                }
+						            }, 1000);
+						        }
+						    </script>
+							<p>Have you tried &lt;img src=&quot;#&quot; onerror="alert('you got hacked')"/&gt;</p>
+							<p class="fragment">&lt;script&gt; does not work because &lt;script&gt; is only executed when the page is loaded.</p>
+					</section>
+					<section class="fragments">
+						<p>This XSS is pretty boring.</p>
+						<p class="fragment">We only executed JS in our own browser.</p>
+						<p class="fragment">We could have used the console in the developer tools as well.</p>
+						<p class="fragment">We want to execute JS in other peoples browsers.</p>
+					</section>
+					<section class="fragments">
+						<p>I added a new feature.</p>
+						<p class="fragment">You can now pass the timer value in the url. <a href="countdownxss.html?seconds=42" target="_blank">countdownxss.html?seconds=42</a>
+						<span><br>Can you build an URL that triggers the XSS<br><span style="font-size: 0.5em">Hint use the img tag with a broken src attribute and the onerror property</span></p>
+					</section>
+					<section class="fragments">
+					  <h2>Reflected vs. Stored XSS</h2>
+					  <div style="display: flex; justify-content: space-around; margin-top: 20px;">
+					    <div style="width: 45%; border: 2px solid #4285f4; border-radius: 5px; padding: 15px;;font-size: 0.5em">
+					      <h3>Reflected XSS</h3>
+					      <p class="fragment" style="font-size: 0.8em">XSS-Payload is part of the request</p>
+					      <p class="fragment" style="font-size: 0.8em">Example: URL-Parameter <code>?search=&lt;script&gt;...&lt;/script&gt;</code></p>
+					      <p class="fragment" style="font-size: 0.8em">Needs user interaction</p>
+					      <p class="fragment" style="font-size: 0.8em">Not stored on the server</p>
+					    </div>
+					    <div style="width: 45%; border: 2px solid #ea4335; border-radius: 5px; padding: 15px;font-size: 0.5em">
+					      <h3>Stored XSS</h3>
+					      <p class="fragment" >XSS payload is stored on the server (e.g. a database)</p>
+					      <p class="fragment" style="font-size: 0.8em">Example: Comments, forum posts, profiles</p>
+					      <p class="fragment" style="font-size: 0.8em">Every visitor of the page is affected</p>
+					      <p class="fragment" style="font-size: 0.8em">Persists across multiple page loads</p>
+					    </div>
+					  </div>
+					  <p class="fragment" style="margin-top: 30px">Stored XSS hat eine größere Reichweite und ist daher gefährlicher</p>
+					</section>
+					<section>
+					    <h2>DOM-based XSS: Sources and Sinks</h2>
+					    <div style="display: flex; justify-content: space-around; align-items: flex-start; gap: 1em">
+					        <div style="width: 45%; border: 2px solid blue; border-radius: 5px; padding: 1em;">
+					            <h3>Sources</h3>
+					            <ul style="font-size: 0.5em">
+					                <li>window.location</li>
+					                <li>document.URL</li>
+					                <li>document.referrer</li>
+					                <li>document.cookie</li>
+					                <li>HTTP requests e.g. fetch()</li>
+					                <li>user-controlled input fields</li>
+					            </ul>
+					        </div>
+					        <div style="width: 45%; border: 2px solid red; border-radius: 5px; padding: 1em;">
+					            <h3>Sinks</h3>
+					            <ul style="font-size: 0.5em">
+					                <li>innerHTML</li>
+					                <li>outerHTML</li>
+					                <li>document.write()</li>
+					                <li>eval()</li>
+					                <li>setTimeout()/setInterval()</li>
+					                <li>setting the href attribute</li>
+					            </ul>
+					        </div>
+					    </div>
+					</section>
+					<section>
+						<h2>The javascript protocol</h2>
+							<input placeholder="Set the href of the link below" style="font-size: 1em; min-width: 90%" type="text" onchange="document.getElementById('jsLink').href = this.value"/><br>
+							<a id="jsLink">My href is set by the input field</a>
+							<p>User control over urls also leads to XSS.</p>
+					</section>
+				</section>
 			</div>
 		</div>
 

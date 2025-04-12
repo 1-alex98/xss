@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="images/js.png" type="image/png">
+  <title>XSS countdown</title>
+</head>
+<body>
+  <h2>Countdown Timer</h2>
+  <input id="timeInput" style="font-size: 1em" placeholder="Enter time in seconds">
+  <button type="button" style="font-size: 1em" onclick="startCountdown()">Start Countdown</button>
+  <p id="countdownDisplay" style="font-size: 1.5em; color: red;"></p>
+  <script>
+    if (window.location.search) {
+      const params = new URLSearchParams(window.location.search);
+      const seconds = params.get('seconds');
+      if (seconds) {
+        document.getElementById('timeInput').value = seconds;
+        startCountdown();
+      }
+    }
+    function startCountdown() {
+      let time = document.getElementById('timeInput').value;
+      const display = document.getElementById('countdownDisplay');
+      let timeRemaining = time;
+
+      const interval = setInterval(() => {
+        if (timeRemaining > 0) {
+          display.innerHTML = `Time remaining: ${timeRemaining} seconds`;
+          timeRemaining--;
+        } else {
+          display.innerHTML = `Time's up! ${time} seconds have passed.`;
+          clearInterval(interval);
+        }
+      }, 1000);
+    }
+  </script>
+  <p>Use the dev tools to see the JS included</p>
+
+</body>
+</html>
