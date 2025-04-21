@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Posts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .post {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .post-title {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<a href="logout" style="float: right; margin-bottom: 2px;">Logout</a>
+<h1>Blog Posts</h1>
+<p>The admin deletes public posts every minute</p>
+<p>No more XSS because no do not use <a href="">"| safe"</a> any more.</p>
+<p>See my code <a href="https://github.com/1-alex98/xss/blob/ccd5ec6b54955823e2864d20c52aaa91d3a6b51d/challenge/templates/chall3_posts.html#L29C47-L29C51">here</a></p>
+
+<div id="posts-container">
+    {% for post in posts %}
+    <div class="post">
+        <p class="post-title">{{ post.title }}</p>
+        <p>{{ post.content }}</p>
+        <div style="gap: 1em;
+                  display: flex;
+                  justify-content: flex-start;
+                  align-items: center;">
+            <p style="color: grey; font-size: 10px">{{ 'Public' if post.is_public else 'Private' }}</p>
+            <button id="{{post.id}}" style="background-color: #f0f0f0; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">
+                ❤️ Like
+            </button>
+            <!-- Check whether my templating engine allows users to inject bad stuff here via post.title -->
+            <!-- Have you heard of JS Template strings https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals-->
+            <script>
+                 function likeSetup(){
+                    let postTitle = `{{ post.title }}`;
+                    let postID = `{{post.id}}`;
+                    document.getElementById(postID).onclick = async function () {
+                        try {
+                            const response = await fetch('/like/' + postId, {
+                                method: 'POST',
+                            });
+
+                            if (response.ok) {
+                                alert(`Post ${postTitle} liked successfully!`);
+                                // Optionally, update the UI with the new like count
+                                location.reload();
+                            } else {
+                                alert('Failed to like the post.');
+                            }
+                        } catch (error) {
+                            console.error('Error liking the post:', error);
+                            alert('An error occurred while liking the post.');
+                        }
+                    };
+                }
+                likeSetup()
+            </script>
+            <p>Liked by: {{post.likers}}</p>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+<h2>Create a New Post</h2>
+<form id="post-form" method="post" action="posts" onsubmit="safeSubmitPost(event)">
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" name="title" required><br><br>
+    <label for="content">Content:</label><br>
+    <textarea id="content" name="content" rows="5" required></textarea><br><br>
+    <label for="is_public">Public:</label>
+    <input type="checkbox" id="is_public" name="is_public"><br><br>
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

