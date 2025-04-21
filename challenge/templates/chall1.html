@@ -23,7 +23,7 @@
     <h1>Blog Posts</h1>
     <div id="posts-container"></div>
     <h2>Create a New Post</h2>
-    <form id="post-form">
+    <form id="post-form" onsubmit="safeSubmitPost(event)">
         <label for="title">Title:</label><br>
         <input type="text" id="title" name="title" required><br><br>
         <label for="content">Content:</label><br>
@@ -40,7 +40,7 @@
 
         async function fetchPosts() {
             try {
-                const response = await fetch('/posts');
+                const response = await fetch(window.location.pathname+ '/posts');
                 const posts = await response.json();
                 const postsContainer = document.getElementById('posts-container');
                 postsContainer.innerHTML = '';
@@ -58,23 +58,29 @@
             }
         }
 
+        function safeSubmitPost(event) {
+            event.preventDefault();
+            const title = document.getElementById('title').value;
+            const content = document.getElementById('content').value;
+            if (title.includes("<") || content.includes("<")) {
+                alert("XSS detected.");
+                return;
+            }
+            submitPost(event);
+        }
+
         async function submitPost(event) {
             event.preventDefault();
             const title = document.getElementById('title').value;
             const content = document.getElementById('content').value;
 
-            if(title.contains("<") || content.contains("<")) {
-                alert("XSS detected.");
-                return;
-            }
-
             try {
-                const response = await fetch('/posts', {
+                const response = await fetch(window.location.pathname + '/posts', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ title: sanitizedTitle, content: sanitizedContent }),
+                    body: JSON.stringify({ title: title, content: content }),
                 });
 
                 if (response.ok) {
@@ -87,8 +93,6 @@
                 console.error('Error saving post:', error);
             }
         }
-
-        document.getElementById('post-form').addEventListener('submit', submitPost);
 
         // Fetch posts on page load
         fetchPosts();

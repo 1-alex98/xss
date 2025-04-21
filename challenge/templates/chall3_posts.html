@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Posts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .post {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .post-title {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<a href="logout" style="float: right; margin-bottom: 2px;">Logout</a>
+<h1>Blog Posts</h1>
+<p>The admin deletes public posts every minute</p>
+<div id="posts-container">
+    {% for post in posts %}
+    <div class="post">
+        <p class="post-title">{{ post.title | safe }}</p>
+        <p>{{ post.content | safe }}</p>
+        <p style="color: grey; font-size: 10px">{{ 'Public' if post.is_public else 'Private' }}</p>
+    </div>
+    {% endfor %}
+</div>
+<h2>Create a New Post</h2>
+<form id="post-form" method="post" action="posts" onsubmit="safeSubmitPost(event)">
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" name="title" required><br><br>
+    <label for="content">Content:</label><br>
+    <textarea id="content" name="content" rows="5" required></textarea><br><br>
+    <label for="is_public">Public:</label>
+    <input type="checkbox" id="is_public" name="is_public"><br><br>
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>
