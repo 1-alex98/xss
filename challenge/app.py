@@ -345,7 +345,7 @@ async def visit_site_4():
         app.logger.error(f"Error visiting site 4: {e}")
 
 # Start the scheduler with a simple interval job
-scheduler.add_job(scheduled_task, 'interval', seconds=60, start_date=datetime.datetime.now() + datetime.timedelta(seconds=5))
+scheduler.add_job(scheduled_task, 'interval', seconds=60, start_date=datetime.datetime.now() + datetime.timedelta(seconds=5), coalesce=True)
 app.logger.warning("Starting")
 init_db()
 scheduler.start()

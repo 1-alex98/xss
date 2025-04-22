@@ -90,7 +90,7 @@
             <section>
                 <div>
                     <p>How websites work</p>
-                    <img src="images/browser.png" style="height: 30vh">
+                    <img src="images/browser.png" style="height: calc(0.3 * var(--slide-height))">
                 </div>
             </section>
             <section>
@@ -153,18 +153,18 @@
                 <h2 data-id="code-title">A complete HTML document</h2>
                 <pre data-id="code-animation"><code class="hljs html" data-trim data-line-numbers="1|2,11|3-5|6-10"><script
                         type="text/template">
-							 <!DOCTYPE html>
-                             <html>
-								<head>
-									<title>Page Title</title>
-								</head>
-								<body>
-									<button>
-										Hi
-									</button>
-								</body>
-							</html>
-						</script></code></pre>
+                     <!DOCTYPE html>
+                     <html>
+                        <head>
+                            <title>Page Title</title>
+                        </head>
+                        <body>
+                            <button>
+                                Hi
+                            </button>
+                        </body>
+                    </html>
+                </script></code></pre>
             </section>
             <section>
                 <h2>WOW a button that does nothing</h2>
@@ -179,7 +179,7 @@
             <section>
                 <div>
                     <p>Javascript</p>
-                    <img src="images/js.png" style="height: 30vh">
+                    <img src="images/js.png" style="height: calc(0.3 * var(--slide-height))">
                     <p>makes website interactive</p>
                 </div>
             </section>
@@ -190,10 +190,10 @@
                     var i = 5; // variables are not statically typed
                     console.log(i); // how to print
                     if (i > 0) {
-                    console.log("i is positive");
+                        console.log("i is positive");
                     }
                     function add(a, b) {
-                    return a + b;
+                        return a + b;
                     }
                     console.log(add(1, 2));
                 </script></code></pre>
@@ -244,21 +244,21 @@
             <section>
                 <div>
                     <p>Dev Tools</p>
-                    <img src="images/devtools.png" style="height: 50vh">
+                    <img src="images/devtools.png" style="height: calc(0.5 * var(--slide-height))">
                     <p>inspecting websites</p>
                 </div>
             </section>
             <section>
                 <div>
                     <p>Dev Tools</p>
-                    <img src="images/inspect.png" style="height: 50vh">
+                    <img src="images/inspect.png" style="height: calc(0.5 * var(--slide-height))">
                     <p>To view a the HTML behind an element: right click -> inspect</p>
                 </div>
             </section>
             <section>
                 <div>
                     <p>Dev Tools</p>
-                    <img src="images/devtools-screenshot.png" style="height: 70vh">
+                    <img src="images/devtools-screenshot.png" style="height: calc(0.7 * var(--slide-height))">
                 </div>
             </section>
             <section>
@@ -283,17 +283,17 @@
             <section>
                 <div>
                     <p>DOM based XSS</p>
-                    <img src="images/rabbit.jpg" style="height: 60vh">
+                    <img src="images/rabbit.jpg" style="height: calc(0.6 * var(--slide-height))">
                 </div>
             </section>
             <section>
                 <div style="display: flex; justify-content: space-between">
-                    <div style="width: 30%; height: 40vh; border-radius: 5px; border: 5px solid blue">
+                    <div style="width: 30%; height: calc(0.4 * var(--slide-height)); border-radius: 5px; border: 5px solid blue">
                         <p><b>Sink</b><br>user-controlled</p>
                         <p>URL or other data </p>
                     </div>
                     <p style="align-self: center;">→</p>
-                    <div style="width: 30%; height: 40vh; border: 5px solid blue">
+                    <div style="width: 30%; height: calc(0.4 * var(--slide-height)); border: 5px solid blue">
                         <p><b>Source</b><br>JS is executed</p>
                         <p>innerHtml</p>
                     </div>
@@ -485,12 +485,12 @@
                 <h3>Some hints for the next challenge</h3>
                 <p>You can use the dev tools to inspect network calls made from the website. Network calls in JS are
                     e.g. done by the fetch() function.</p>
-                <img src="images/network.png" style="height: 30vh; object-fit: contain"/>
+                <img src="images/network.png" style="height: calc(0.3 * var(--slide-height)); object-fit: contain"/>
             </section>
             <section class="fragments">
                 <h3>HTML/JS content can be modified</h3>
                 <p>Never do content validation browser sided.</p>
-                <img src="images/devtools-edit.png" style="height: 30vh; object-fit: contain"/>
+                <img src="images/devtools-edit.png" style="height: calc(0.3 * var(--slide-height)); object-fit: contain"/>
                 <p>Do a double click in dev tools.</p>
                 <p>Modified JS does not necessarily come into effect if it was already executed.</p>
             </section>
@@ -562,7 +562,7 @@
                 <h2>
                     Let's steal some cookies
                 </h2>
-                <img src="images/cookie.png" style="height: 40vh">
+                    <img src="images/cookie.png" style="height: 40vh">
             </section>
             <section>
                 <h2>What is a Cookie?</h2>
@@ -577,7 +577,7 @@
             </section>
             <section>
                 <p>Authentification via Cookies</p>
-                <img src="images/cookie_explain.png" style="height: 40vh; object-fit: contain;">
+                <img src="images/cookie_explain.png" style="height: 60vh; object-fit: contain;">
             </section>
             <section>
                 <h2>What can an attacker do with XSS?</h2>
@@ -596,7 +596,7 @@
                         const cookies = document.cookie;
                     </code></pre>
                     <p>Read a Cookie Using Dev Tools</p>
-                    <img src="images/dev-cookies.png" style="height: 10vh; object-fit: contain;">
+                    <img src="images/dev-cookies.png" style="height: 30vh; object-fit: contain;">
                     <img src="images/dev-cookies2.png" style="height: 20vh; object-fit: contain;">
             </section>
             <section>
@@ -635,23 +635,20 @@
             </section>
         </section>
         <section>
-            <section>
-                <h2>Mitigations for XSS</h2>
-                <ul>
-                    <li>Escaping HTML</li>
-                    <li>Escaping data injected in JS or HTML properties</li>
-                    <li>HTTP-only cookies</li>
-                    <li>CSP</li>
-                </ul>
-            </section>
+            <h2>Mitigations for XSS</h2>
+            <ul>
+                <li>Escaping HTML</li>
+                <li>Escaping data injected in JS or HTML properties</li>
+                <li>Know your library/tech</li>
+                <li>HTTP-only cookies</li>
+                <li>CSP</li>
+            </ul>
         </section>
         <section>
-            <section>
                 <h2>Thank you for your attention</h2>
-                <a href="https://github.com/1-alex98/xss/tree/master/challenge">Source code challenges</a>
-                <a href="https://github.com/1-alex98/xss">Source code slides</a>
-                <a href="https://xss-game.appspot.com/">Google XSS Challenges</a>
-            </section>
+                <p><a href="https://github.com/1-alex98/xss/tree/master/challenge">Source code challenges</a></p>
+                <p><a href="https://github.com/1-alex98/xss">Source code slides</a></p>
+                <p><a href="https://xss-game.appspot.com/">Google XSS Challenges</a></p>
         </section>
     </div>
 </div>
