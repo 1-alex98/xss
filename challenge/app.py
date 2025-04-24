@@ -49,7 +49,7 @@ def init_db():
 
 @app.route('/')
 def hello_world():  # put application's code here
-    return 'Hello World!'
+    return redirect('https://github.com/1-alex98/xss')
 
 @app.route('/chall1')
 def chall1_redirect():
