@@ -47,7 +47,7 @@
                     let postID = `{{post.id}}`;
                     document.getElementById(postID).onclick = async function () {
                         try {
-                            const response = await fetch('/like/' + postId, {
+                            const response = await fetch('/like/' + postID, {
                                 method: 'POST',
                             });
 
